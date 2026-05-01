@@ -51,4 +51,8 @@ for idx, row in eligible.iterrows():
     real_solar = get_solar_hours(row['lat'], row['lon']) #passed in the synthetic data by row into the function built
     eligible.at[idx, 'sun_hours'] = real_solar
     print(f"Parcel {row['parcel_id']} — {row['address']}: {real_solar:.1f} kWh")
-    time.sleep(0.5)  
+    time.sleep(0.5) 
+
+
+final_ranked = eligible.sort_values('score', ascending=False)
+print(final_ranked[['parcel_id', 'address', 'land_use', 'score']])
