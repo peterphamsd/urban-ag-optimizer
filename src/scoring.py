@@ -1,4 +1,6 @@
 import pandas as pd
+from solar import get_solar_hours
+import time
 
 #creating a scoring function to assess viabilities of different areas.
 
@@ -42,3 +44,11 @@ eligible['score'] = eligible.apply(lambda row: score_parcel(
 ranked = eligible.sort_values('score',ascending=False)
 
 print(ranked)
+
+print("\n--- FETCHING REAL SOLAR DATA ---")
+
+for idx, row in eligible.iterrows():
+    real_solar = get_solar_hours(row['lat'], row['lon']) #passed in the synthetic data by row into the function built
+    eligible.at[idx, 'sun_hours'] = real_solar
+    print(f"Parcel {row['parcel_id']} — {row['address']}: {real_solar:.1f} kWh")
+    time.sleep(0.5)  

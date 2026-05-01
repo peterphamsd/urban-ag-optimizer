@@ -1,21 +1,21 @@
-parcel_id,address,land_use,lot_sqft,sun_hours,food_desert_score,transit_distance_m
-1001,761 Market St,commercial,4747,1794.2,0.34,829
-1002,408 Park Ave,industrial,2189,1241.3,0.85,979
-1003,869 Harbor Dr,vacant,5005,2291.2,0.42,1106
-1004,443 Industrial Blvd,commercial,3899,1510.5,0.35,1121
-1005,591 Mission Rd,commercial,3267,1995.0,0.59,552
-1006,513 Broadway,industrial,19912,1574.1,0.23,456
-1007,905 El Cajon Blvd,vacant,13394,1824.1,0.82,854
-1008,485 University Ave,vacant,5556,1856.1,0.17,148
-1009,291 Imperial Ave,commercial,5890,1421.8,0.99,733
-1010,376 National City Blvd,open space,10838,2363.5,0.8,775
-1011,260 Logan Ave,commercial,16502,2130.2,0.28,1010
-1012,559 Newton Ave,commercial,12627,2327.4,0.1,662
-1013,413 Euclid Ave,commercial,10792,2273.8,0.83,692
-1014,121 Ocean View Blvd,commercial,12555,1917.5,0.74,1078
-1015,352 Cesar Chavez Pkwy,industrial,12253,2306.2,0.76,1291
-1016,847 Main St,vacant,10433,1306.2,0.79,552
-1017,956 Palm Ave,industrial,12233,1435.2,0.17,816
-1018,660 Highland Ave,industrial,13016,1254.3,0.42,447
-1019,574 Division St,industrial,4612,1590.4,0.2,920
-1020,158 Commercial St,commercial,17787,1666.4,0.88,844
+parcel_id,address,land_use,lot_sqft,sun_hours,food_desert_score,transit_distance_m,lat,lon
+1001,761 Market St,commercial,4747,1794.2,0.34,829,32.714,-117.156
+1002,408 Park Ave,industrial,2189,1241.3,0.85,979,32.748,-117.132
+1003,869 Harbor Dr,vacant,5005,2291.2,0.42,1106,32.735,-117.148
+1004,443 Industrial Blvd,commercial,3899,1510.5,0.35,1121,32.702,-117.163
+1005,591 Mission Rd,commercial,3267,1995.0,0.59,552,32.721,-117.141
+1006,513 Broadway,industrial,19912,1574.1,0.23,456,32.756,-117.127
+1007,905 El Cajon Blvd,vacant,13394,1824.1,0.82,854,32.744,-117.155
+1008,485 University Ave,vacant,5556,1856.1,0.17,148,32.698,-117.138
+1009,291 Imperial Ave,commercial,5890,1421.8,0.99,733,32.731,-117.152
+1010,376 National City Blvd,open space,10838,2363.5,0.8,775,32.715,-117.144
+1011,260 Logan Ave,commercial,16502,2130.2,0.28,1010,32.708,-117.161
+1012,559 Newton Ave,commercial,12627,2327.4,0.1,662,32.742,-117.129
+1013,413 Euclid Ave,commercial,10792,2273.8,0.83,692,32.751,-117.143
+1014,121 Ocean View Blvd,commercial,12555,1917.5,0.74,1078,32.719,-117.157
+1015,352 Cesar Chavez Pkwy,industrial,12253,2306.2,0.76,1291,32.736,-117.136
+1016,847 Main St,vacant,10433,1306.2,0.79,552,32.703,-117.149
+1017,956 Palm Ave,industrial,12233,1435.2,0.17,816,32.728,-117.133
+1018,660 Highland Ave,industrial,13016,1254.3,0.42,447,32.745,-117.158
+1019,574 Division St,industrial,4612,1590.4,0.2,920,32.711,-117.146
+1020,158 Commercial St,commercial,17787,1666.4,0.88,844,32.759,-117.131
