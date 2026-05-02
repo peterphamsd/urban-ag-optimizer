@@ -1,6 +1,7 @@
 import pandas as pd
 from solar import get_solar_hours
 import time
+from spatial import calculate_transit_distances
 
 #creating a scoring function to assess viabilities of different areas.
 
@@ -56,3 +57,24 @@ for idx, row in eligible.iterrows():
 
 final_ranked = eligible.sort_values('score', ascending=False)
 print(final_ranked[['parcel_id', 'address', 'land_use', 'score']])
+
+
+# calculate real transit distances
+print("\n--- CALCULATING REAL TRANSIT DISTANCES ---")
+eligible = calculate_transit_distances(eligible)
+print(eligible[['parcel_id', 'address', 'transit_distance_m']])
+
+print("\n")
+
+# final re-score with all real data
+print("\n--- FINAL RANKING (all real data) ---")
+
+eligible['score'] = eligible.apply(lambda row: score_parcel(
+    row['sun_hours'],
+    row['food_desert_score'],
+    row['transit_distance_m'],
+    row['lot_sqft']
+), axis=1)
+
+final = eligible.sort_values('score', ascending=False)
+print(final[['parcel_id', 'address', 'land_use', 'transit_distance_m', 'score']])
