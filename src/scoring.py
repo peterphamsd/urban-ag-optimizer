@@ -2,6 +2,7 @@ import pandas as pd
 from solar import get_solar_hours
 import time
 from spatial import calculate_transit_distances
+from map_output import build_map
 
 #creating a scoring function to assess viabilities of different areas.
 
@@ -78,3 +79,7 @@ eligible['score'] = eligible.apply(lambda row: score_parcel(
 
 final = eligible.sort_values('score', ascending=False)
 print(final[['parcel_id', 'address', 'land_use', 'transit_distance_m', 'score']])
+
+
+print("\n--- BUILDING MAP ---")
+build_map(final)

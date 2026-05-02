@@ -40,6 +40,18 @@ df['lat'] = lats
 df['lon'] = lons
 
 
+df['farm_type'] = np.where(
+    df['land_use'].isin(['vacant','open space']),
+    'ground',
+    'rooftop'
+)
+
+df['roof_height'] = np.where(
+    df['land_use'].isin(['vacant','open space']),
+    0,
+    np.random.randint(5, 30, size=20)
+)
+
 df.to_csv('data/parcels.csv', index=False)
 
 
