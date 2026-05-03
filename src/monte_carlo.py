@@ -95,6 +95,3 @@ if __name__ == "__main__":
         n=10000
     )
     
-    print("\n--- MONTE CARLO RESULTS ---")
-    for key, value in results.items():
-        print(f"{key}: {value}")
