@@ -205,3 +205,54 @@ def compute_ETo(Tmin, Tmax, solar_rad, wind_speed, humidity,
     
     return numerator / denominator
 
+
+
+def get_kc(day):
+    """
+    Crop coefficient for lettuce by day of growing season
+    FAO-56 Table 12 values for lettuce
+    day: day of growing season (1-75)
+    returns: Kc value
+    """
+
+    #number of days for each state
+    L_ini = 20
+    L_dev = 30
+    L_mid = 15
+    L_late = 10
+
+    end_ini = L_ini
+    end_dev = L_ini + L_dev
+    end_mid = L_ini + L_dev + L_mid
+    end_late = L_ini + L_dev + L_mid + L_late
+
+    Kc_ini = 0.70
+    Kc_mid = 1.00
+    Kc_end = 0.95
+
+    if day <= end_ini:
+        # initial stage — flat
+        return Kc_ini
+
+    elif day <= end_dev:
+        # development stage — interpolate from Kc_ini to Kc_mid
+        progress = (day - end_ini) / L_dev
+        return (0.7 + (1.00 - 0.7) * progress)
+
+    elif day <= end_mid:
+        # mid-season — flat
+        return Kc_mid
+
+    elif day <= end_late:
+        # late season — interpolate from Kc_mid to Kc_end
+        progress = (day - end_mid) / L_late
+        return (Kc_mid + (Kc_end - Kc_mid) * progress)
+
+    else:
+        # season over
+        return 0
+
+
+
+for day in [1, 20, 25, 35, 50, 55, 65, 70, 75]:
+    print(f"Day {day:3d}: Kc = {get_kc(day):.4f}")
