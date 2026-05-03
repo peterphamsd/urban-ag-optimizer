@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from weather import get_weather_data
 
 def sat_vapour_pressure(T):
     """
@@ -251,8 +252,107 @@ def get_kc(day):
     else:
         # season over
         return 0
+    
+def run_water_balance(weather_df, lat, elevation=0, roof_height=0):
+    """
+    Daily soil water balance for lettuce growing season
+    FAO-56 Chapter 8
+    weather_df: DataFrame with daily weather data
+    returns: dict with season results
+    """
+    # Lettuce parameters
+    theta_FC = 0.23
+    theta_WP = 0.10
+    Ze       = 0.10
+    p        = 0.30
+    
+    # Calculate TAW and RAW
+    TAW = (theta_FC - theta_WP) * Ze * 1000
+    RAW = p * TAW
+    
+    # Starting condition — soil at field capacity
+    Dr = 0.0
+    
+    # Track results
+    total_ETc    = 0
+    total_stress = 0
+    stress_days  = 0
+    total_irrigation = 0
+    daily_Ks     = []
+    
+    # Limit to growing season length (75 days)
+    season_days = min(len(weather_df), 75)
+    
+    for day in range(1, season_days + 1):
+        row = weather_df.iloc[day - 1]
+        
+        # Day of year for radiation calculation
+        doy = row.name.timetuple().tm_yday
+        
+        # Calculate ETo
+        ETo = compute_ETo(
+            Tmin      = row['temp_min'],
+            Tmax      = row['temp_max'],
+            solar_rad = row['solar_rad'],
+            wind_speed= row['wind_speed'],
+            humidity  = row['humidity'],
+            lat       = lat,
+            day_of_year = doy,
+            elevation = elevation,
+            roof_height = roof_height
+        )
+        
+        # Crop coefficient for this day
+        Kc = get_kc(day)
+        
+        # Potential crop ET
+        ETc = Kc * ETo
+        
+        # Water stress coefficient
+        if Dr > RAW:
+            Ks = max(0, (TAW - Dr) / (TAW - RAW))
+        else:
+            Ks = 1.0
+        
+        # Actual ET under stress
+        ETc_adj = Ks * ETc
+        
+        # Rainfall
+        rainfall = row.get('rainfall', 0)
 
+        # Irrigation trigger — irrigate when Dr exceeds RAW
+        irrigation = 0
+        if Dr > RAW:
+            irrigation = Dr  # refill to field capacity
 
+        total_irrigation += irrigation
+    
+        # Update depletion
+        Dr = Dr - rainfall - irrigation + ETc_adj
+        
+        # Cap between 0 and TAW
+        Dr = max(0, min(Dr, TAW))
+        
+        # Record
+        total_ETc    += ETc
+        total_stress += (1 - Ks)
+        stress_days  += 1 if Ks < 1.0 else 0
+        daily_Ks.append(Ks)
+    
+    # Average stress coefficient
+    avg_Ks = np.mean(daily_Ks)
+    
+    # Yield impact — proportional to water stress
+    yield_reduction = (1 - avg_Ks) * 100
+    
+    return {
+        'TAW': TAW,
+        'RAW': RAW,
+        'avg_Ks': round(avg_Ks, 4),
+        'stress_days': stress_days,
+        'total_ETc_mm': round(total_ETc, 2),
+        'total_irrigation_mm': round(total_irrigation, 2),
+        'yield_reduction_pct': round(yield_reduction, 2),
+        'viable': avg_Ks >= 0.80
+    }
 
-for day in [1, 20, 25, 35, 50, 55, 65, 70, 75]:
-    print(f"Day {day:3d}: Kc = {get_kc(day):.4f}")

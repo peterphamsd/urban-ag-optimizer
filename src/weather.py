@@ -6,7 +6,7 @@ def get_weather_data(lat,lon, start_year = 2020, end_year = 2025):
     url = 'https://power.larc.nasa.gov/api/temporal/daily/point' #NASA power API
 
     params = {
-        "parameters": "T2M,T2M_MIN,T2M_MAX,WS2M,RH2M,ALLSKY_SFC_SW_DWN",
+        "parameters": "T2M,T2M_MIN,T2M_MAX,WS2M,RH2M,ALLSKY_SFC_SW_DWN,PRECTOTCORR",
         "community": "AG",
         "longitude": lon,
         "latitude": lat,
@@ -22,7 +22,7 @@ def get_weather_data(lat,lon, start_year = 2020, end_year = 2025):
 
     df = pd.DataFrame(properties)
     df.index = pd.to_datetime(df.index, format='%Y%m%d')
-    df.columns = ['temp_mean', 'temp_min', 'temp_max', 'wind_speed', 'humidity', 'solar_rad']
+    df.columns = ['temp_mean', 'temp_min', 'temp_max', 'wind_speed', 'humidity', 'solar_rad', 'rainfall']
 
     return df
 
