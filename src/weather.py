@@ -26,9 +26,6 @@ def get_weather_data(lat,lon, start_year = 2020, end_year = 2025):
 
     return df
 
-df = get_weather_data(32.735, -117.148)
-print(df.head(10))
-print(f"Shape: {df.shape}")
 
     
 

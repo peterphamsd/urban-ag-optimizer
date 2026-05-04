@@ -33,8 +33,15 @@ def run_simulation(lat, lon, elevation=0, roof_height=0, n=10000):
     
     for i in range(n):
         # Sample uncertain inputs
+
+    # Normal distribution — year-to-year temperature variation
+    # Based on San Diego historical std dev of ~1.5°C
         temp_delta    = np.random.normal(0, 1.5)
+
+    # Triangular — average year most likely, extremes possible
+    # San Diego rainfall ranges 50-150% of average
         rainfall_mult = np.random.triangular(0.5, 1.0, 1.5)
+
         wind_mult     = np.random.uniform(0.8, 1.2)
         water_rate    = np.random.uniform(4.50, 8.00)
         
@@ -95,3 +102,4 @@ if __name__ == "__main__":
         n=10000
     )
     
+

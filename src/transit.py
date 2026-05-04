@@ -10,5 +10,3 @@ def get_transit_stops():
     print(gdf.head())
     
     return gdf
-
-get_transit_stops()
